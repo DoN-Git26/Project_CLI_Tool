@@ -6,6 +6,9 @@ from models.task import Task
 
 def add_user(name, email):
     data = load_data()
+    if any(u["name"] == name or u["email"] == email for u in data["users"]):
+        print(f"❌ User {name} already exists.")
+        return
     user = {"name": name, "email": email, "projects": []}
     data["users"].append(user)
     save_data(data)
@@ -26,6 +29,29 @@ def add_project(user_name, title, description, due_date):
             print(f"✅ Project {title} added to {user_name}.")
             return
     print("❌ User not found.")
+
+def list_projects(user_name):
+    data = load_data()
+    for user in data["users"]:
+        if user["name"] == user_name:
+            if not user["projects"]:
+                print("No projects found.")
+            for p in user["projects"]:
+                print(f"- {p['title']}: {p['description']} (due {p['due_date']})")
+            return
+    print("❌ User not found.")
+
+def list_tasks(project_title):
+    data = load_data()
+    for user in data["users"]:
+        for project in user["projects"]:
+            if project["title"] == project_title:
+                if not project["tasks"]:
+                    print("No tasks found.")
+                for t in project["tasks"]:
+                    print(f"- {t['title']} [{t['status']}] (assigned to: {t['assigned_to'] or 'unassigned'})")
+                return
+    print("❌ Project not found.")
 
 def add_task(project_title, task_title, assigned_to=None):
     data = load_data()
@@ -71,6 +97,14 @@ def main():
     project_parser.add_argument("--description", required=True)
     project_parser.add_argument("--due_date", required=True)
 
+    # list-projects
+    lp_parser = subparsers.add_parser("list-projects")
+    lp_parser.add_argument("--user", required=True)
+
+    # list-tasks
+    lt_parser = subparsers.add_parser("list-tasks")
+    lt_parser.add_argument("--project", required=True)
+
     # add-task
     task_parser = subparsers.add_parser("add-task")
     task_parser.add_argument("--project", required=True)
@@ -90,10 +124,16 @@ def main():
         list_users()
     elif args.command == "add-project":
         add_project(args.user, args.title, args.description, args.due_date)
+    elif args.command == "list-projects":
+        list_projects(args.user)
+    elif args.command == "list-tasks":
+        list_tasks(args.project)
     elif args.command == "add-task":
         add_task(args.project, args.title, args.assigned_to)
     elif args.command == "complete-task":
         complete_task(args.project, args.title)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

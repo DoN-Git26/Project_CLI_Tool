@@ -1,7 +1,7 @@
 import json
 import os
 
-DB_FILE = "data/database.json"
+DB_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "database.json")
 
 def load_data():
     """

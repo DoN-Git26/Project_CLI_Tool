@@ -1,8 +1,8 @@
 {
     "users": [
         {
-            "name": "Alex",
-            "email": "alex@example.com",
+            "name": "Donex Oloo",
+            "email": "donex@example.com",
             "projects": [
                 {
                     "title": "CLI Tool",
@@ -12,9 +12,20 @@
                         {
                             "title": "Implement add-task",
                             "status": "Complete",
-                            "assigned_to": "Alex"
+                            "assigned_to": "Donex Oloo"
+                        },
+                        {
+                            "title": "Implement add-task",
+                            "status": "Pending",
+                            "assigned_to": "Donex Oloo"
                         }
                     ]
+                },
+                {
+                    "title": "CLI Tool",
+                    "description": "Build CLI",
+                    "due_date": "2026-12-01",
+                    "tasks": []
                 }
             ]
         }

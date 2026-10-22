@@ -5,7 +5,7 @@ from models.task import Task
 
 class TestModels(unittest.TestCase):
     def test_user_project_task(self):
-        user = User("Alex", "alex@example.com")
+        user = User("Donex Oloo", "donex@example.com")
         project = Project("CLI Tool", "Build CLI", "2026-12-01")
         task = Task("Implement add-task")
 
